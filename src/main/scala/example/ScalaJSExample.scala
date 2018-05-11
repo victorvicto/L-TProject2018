@@ -7,7 +7,7 @@ import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel}
 
 object ScalaJSExample {
 
-  @JSExportTopLevel("myproject")
+  //@JSExportTopLevel("myproject")
   protected def getInstance(): this.type = this
 
   def groupTicks(d: ChordGroup, step: Double): js.Array[js.Dictionary[Double]] = {
@@ -15,13 +15,13 @@ object ScalaJSExample {
     d3.range(0, d.value, step).map((v: Double) => js.Dictionary("value" -> v, "angle" -> (v * k + d.startAngle)))
   }
 
-  @JSExport
-  def main(args: Array[String]): Unit = {
+  //@JSExport
+  def mainq(args: Array[String]): Unit = {
     val matrix = js.Array[js.Array[Double]](
-      js.Array(11975,  5871, 8916, 2868),
-      js.Array(1951, 10048, 2060, 6171),
-      js.Array(8010, 16145, 8090, 8045),
-      js.Array(1013,   990,  940, 6907)
+      js.Array(0, 100, 100, 100),
+      js.Array(100, 0, 100, 100),
+      js.Array(100, 100, 0, 100),
+      js.Array(100, 100, 100, 0)
     )
 
     import d3v4.d3
@@ -39,7 +39,7 @@ object ScalaJSExample {
 
     val ribbon = d3.ribbon().radius(innerRadius)
 
-    val color = d3.scaleOrdinal[Int, String]().domain(d3.range(4)).range(js.Array("#000000", "#FFDD89", "#957244", "#F26223"))
+    val color = d3.scaleOrdinal[Int, String]().domain(d3.range(4)).range(js.Array("#000000", "#000000", "#000000", "#000000"))
 
     val g: Selection[ChordArray] = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")").datum(chord(matrix))
 
