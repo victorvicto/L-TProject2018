@@ -1,7 +1,10 @@
 package d3v4
 
+import com.sun.org.apache.xalan.internal.utils.FeatureManager.Feature
+import graph_dsl.MyGeometries
+
 import scalajs.js
-import scalajs.js.{undefined, `|`}
+import scalajs.js.{`|`, undefined}
 import scala.scalajs.js.annotation._
 
 @JSImport("topojson-client", JSImport.Namespace)
@@ -10,6 +13,7 @@ object topojson extends js.Object {
   //                 Zhutian Chen  <https://github.com/chenzhutian>
   def bbox(topology: js.Any): js.Dynamic = js.native
   def feature(topology: js.Any, o: js.Any): js.Any = js.native
+  //def feature(topology: js.Any, o: js.Array[js.Any]): js.Array[js.Any] = js.native
   def filter(topology: js.Any, filter: js.Any): js.Dynamic = js.native
   def filterAttached(topology: js.Any): js.Dynamic = js.native
   def filterAttachedWeight(topology: js.Any, minWeight: js.Any, weight: js.Any): js.Dynamic = js.native

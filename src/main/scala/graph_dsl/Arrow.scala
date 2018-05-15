@@ -15,7 +15,7 @@ case class Arrow (val x1:Int ,val y1: Int,val x2:Int ,val y2: Int, val width: In
     .attr("y1",y1)
     .attr("x2",x2)
     .attr("y2",y2)
-    .attr("stroke","#ee3333")
+    .attr("stroke","#44dd44")
     .attr("stroke-width",width)
     .attr("marker-end","url(#arrow)")
     .on("mouseover", () => d3.select("#num").text(textToShow))

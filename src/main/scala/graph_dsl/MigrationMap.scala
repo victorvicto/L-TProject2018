@@ -45,34 +45,11 @@ case class Migration_Map () {
   val height = 900
   val width = 900
 
-  var zoom = d3.zoom()
-    .scaleExtent(js.Tuple2(1.0, 8.0))
-    .on("zoom", jszoom)
-
-  val svg = d3.select("svg").attr("width", width).attr("height", height).append("g")
-    .attr("transform", "translate(-5,-5)")
-    .call(zoom)
-
-  var rec = svg.append("rect").attr("width", "100").attr("height", "100").attr("fill", "transparent")
+  val svg = d3.select("svg").attr("width", "fill-parent").attr("height", height)
 
   val features = svg.append("g")
 
   val path = d3.geoPath().projection(null)
-
-  def onMouse(d: MyGeometries): Unit = {
-    rec.text(d.id)
-  }
-
-  val oonMouse: ListenerFunction1[MyGeometries] = onMouse
-
-  val zoomed = () => {
-    features.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")")
-    features.select(".state-border").style("stroke-width", 1.5 / d3.event.scale + "px")
-    features.select(".county-border").style("stroke-width", .5 / d3.event.scale + "px")
-    ()
-  }
-
-  val jszoom: ListenerFunction0 = zoomed
 
   def funct(json: js.Any): Unit = {
     println("I mean... I'm walkin' here!")
@@ -87,18 +64,10 @@ case class Migration_Map () {
       .attr("class", "state-border")
       .attr("d", path)
       .style("stroke-width", "1.5px")
-      //.on("mouseover", oonMouse)
-
-    /*features.append("path")
-      .datum(topojson.mesh(us, us.objects.counties, (a: js.Any, b: js.Any) => { a != b }))
-      .attr("class", "county-border")
-      .attr("d", path)
-      .style("stroke-width", ".5px")*/
   }
 
   val jsFunct: js.Function1[js.Any, Unit] = funct
 
-  println("loltest")
   d3.json("https://unpkg.com/us-atlas@1/us/10m.json").Then(jsFunct)
 
 }

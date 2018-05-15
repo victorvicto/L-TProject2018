@@ -52,8 +52,9 @@ object ScalaJSExample_test {
 
     //var plot = Chord_Plot(mat, margin = 100, circle_thickness = 10, colors = js.Array("#5555dd", "#6644dd", "#7755d4", "#11a1ff", "#4652dd", "#6461bd", "#aaaaff", "#8181dd", "#5555dd", "#6644dd", "#7755d4", "#11a1ff", "#4652dd", "#6461bd", "#aaaaff", "#8181dd"))
     var plot = Migration_Map()
+    var plotht = Migration_Map()
     val arr1 = new Arrow(100,120,280,180,14,"Oregon to Wyoming : 14.000 people")
     val arr2 = new Arrow(450,450,595,265,10,"Texas to Illinois : 10.000 people")
-    val arr3 = new Arrow(440,460,120,500,4,"Texas to Alaska: 4.000 people")
+    val arr3 = new Arrow(440,460,120,500,4,"Texas to Alaska : 4.000 people")
   }
 }
