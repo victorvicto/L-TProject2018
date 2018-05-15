@@ -7,6 +7,7 @@
 
     body {
       font: 10px sans-serif;
+      background-color: #eeeedd;
     }
 
     .group-tick line {
@@ -17,19 +18,51 @@
       fill-opacity: 0.67;
     }
 
+    .overlay {
+      fill: none;
+      pointer-events: all;
+    }
+
+    .state {
+      fill: #555;
+    }
+
+    .name-text {
+      font-size: 15px
+    }
+
+    .county-border,
+    .state-border {
+      fill: none;
+      stroke: #aaa;
+      stroke-linejoin: round;
+      stroke-linecap: round;
+    }
+
   </style>
+  <h1 id="num">Total flow of people between 2016 and 2017 (fictional values)</h1>
 </head>
 
 <body>
 
-<h1>Example Scala.js d3 facade application - development version</h1>
-
-<p>After having compiled and packaged properly the code for the application
-  (using `sbt fastOptJS::webpack`), you should see some bars here below.
-  See README.md for detailed explanations.</p>
+<script src="https://d3js.org/topojson.v1.min.js"></script>
 
 <div id="playground">
-  <svg width="960" height="960"></svg>
+  <svg width="960" height="960">
+    <defs>
+      <marker
+              id="arrow"
+              markerUnits="strokeWidth"
+              markerWidth="5"
+              markerHeight="5"
+              viewBox="0 0 12 12"
+              refX="6"
+              refY="6"
+              orient="auto">
+        <path d="M2,2 L10,6 L2,10 L6,6 L2,2" style="fill: #ee3333;"></path>
+      </marker>
+    </defs>
+  </svg>
 </div>
 
 <script type="text/javascript" src="./target/scala-2.12/scalajs-bundler/main/example-fastopt-bundle.js"></script>

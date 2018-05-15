@@ -9,6 +9,20 @@ import scala.scalajs.js.annotation._
 @JSImport("d3-geo", JSImport.Namespace)
 @js.native
 object d3geo extends js.Object {
-  //TODO if you need to use these functions! see examples in the other files
-  //no-need to interface everything: simply add the functions you need.
+  def geoPath(): PathGenerator  = js.native
+}
+
+@js.native
+trait GeoLayout extends js.Object{
+  //def path(): Path = js.native
+}
+
+@js.native
+trait PathGenerator extends js.Object{
+  def projection(pro: js.Any*): js.Function1[js.Any, String] = js.native
+}
+
+@js.native
+trait PGenerator extends js.Object{
+  def apply(arguments: js.Any): String = js.native
 }

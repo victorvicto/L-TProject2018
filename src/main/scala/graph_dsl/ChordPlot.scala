@@ -4,14 +4,19 @@ import d3v4._
 import example.ScalaJSExample.groupTicks
 
 import scala.scalajs.js
+import org.scalajs.dom.raw
+import org.scalajs.dom.raw.CanvasRenderingContext2D
+
 import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel}
 
-case class Chord_Plot (val matrix : js.Array[js.Array[Double]], val colors : js.Array[String] = js.Array(), val circle_thickness : Int = 30, val margin : Int = 40) {
+case class Chord_Plot (val matrix : matrix, val colors : js.Array[String] = js.Array(), val circle_thickness : Int = 30, val margin : Int = 100) {
 
-  def groupTicks(d: ChordGroup, step: Double): js.Array[js.Dictionary[Double]] = {
+  def groupTicks(d: ChordGroup, step: Double, ind: Double): js.Array[js.Dictionary[Double]] = {
     val k: Double = (d.endAngle - d.startAngle) / d.value
-    d3.range(0, d.value, step).map((v: Double) => js.Dictionary("value" -> v, "angle" -> (v * k + d.startAngle)))
+    d3.range(0, d.value, step).map((v: Double) => js.Dictionary("value" -> v, "angle" -> (v * k + d.startAngle), "ind" -> ind))
   }
+  var mat : js.Array[js.Array[Double]] = matrix.final_matrix
+
 
   import d3v4.d3
   val svg = d3.select("svg")
@@ -28,17 +33,18 @@ case class Chord_Plot (val matrix : js.Array[js.Array[Double]], val colors : js.
 
   val ribbon = d3.ribbon().radius(innerRadius)
 
+
   var color = js.Array[String]()
-  for( i <- 0 to (matrix.length-1)){
-    if (i<colors.length) {
+  for( i <- 0 until matrix.num_rows){
+    if (i < colors.length) {
       color.append(colors(i))
     } else {
-      val index = i%beautiful.colors.length
+      val index = i % beautiful.colors.length
       color.append(beautiful.colors(index))
     }
   }
 
-  val g: Selection[ChordArray] = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")").datum(chord(matrix))
+  val g: Selection[ChordArray] = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")").datum(chord(mat))
 
   val group = g.append("g").attr("class", "groups")
     .selectAll("g")
@@ -49,18 +55,19 @@ case class Chord_Plot (val matrix : js.Array[js.Array[Double]], val colors : js.
     .style("stroke", (d: ChordGroup) => d3.rgb(color(d.index)).darker())
     .attr("d", (x: ChordGroup) => arc(x))
 
-  var groupTick = group.selectAll(".group-tick").data((d: ChordGroup) => groupTicks(d, 1e3))
+  var groupTick = group.selectAll(".group-tick").data((d: ChordGroup) => groupTicks(d, 1e3, d.index))
     .enter().append("g").attr("class", "group-tick")
     .attr("transform", (d: js.Dictionary[Double]) =>  "rotate(" + (d("angle") * 180 / Math.PI - 90) + ") translate(" + outerRadius + ",0)")
 
   groupTick.append("line").attr("x2", 6)
 
   groupTick.filter((d: js.Dictionary[Double]) => d("value") % 5e3 == 0).append("text")
+    .attr("class", "name-text")
     .attr("x", 8)
     .attr("dy", ".35em")
     .attr("transform", (d: js.Dictionary[Double]) => if(d("angle") > Math.PI) "rotate(180) translate(-16)" else null)
     .style("text-anchor", (d: js.Dictionary[Double]) => if(d("angle") > Math.PI) "end" else null)
-    .text((d: js.Dictionary[Double]) => formatValue(d("value")))
+    .text((d: js.Dictionary[Double]) => matrix.rows(d("ind").toInt).name )  //(d: js.Dictionary[Double]) => formatValue(d("value")))
 
   g.append("g").attr("class", "ribbons").selectAll("path").data((c: ChordArray) => c)
     .enter().append("path")

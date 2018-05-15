@@ -9,8 +9,9 @@ import org.scalajs.dom
 @JSImport("d3-zoom", JSImport.Namespace)
 @js.native
 object d3zoom extends js.Object {
-  def zoomIdentity: Transform = js.native
+  def zoomInstance(): Transform = js.native
   def zoom[Datum](): ZoomBehavior[Datum] = js.native
+  //def zevent(): ZoomEvent = js.native
 }
 
 @js.native
@@ -27,19 +28,25 @@ trait Transform extends js.Object {
   def k: Double = js.native
   def translate(x: Double | js.UndefOr[Double], y: Double | js.UndefOr[Double]): Transform
   def scale(k: Double | js.UndefOr[Double]): Transform
+  def on(typenames: String, listener: ListenerFunction0): Transform = js.native
+  def scaleExtent(extent: js.Tuple2[Double, Double]): Transform = js.native
 }
 
 @js.native
 trait ZoomEvent extends BaseEvent {
   def transform: Transform = js.native
+  def translate: js.Any = js.native
+  def scale: Double = js.native
 }
 
 @js.native
 trait ZoomBehavior[Datum] extends js.Function1[Selection[Datum], Unit] {
   def on(typenames: String, listener: ListenerFunction0): ZoomBehavior[Datum] = js.native
-  def scaleExtent(extent: js.Array[Double]): ZoomBehavior[Datum] = js.native
+  def scaleExtent(extent: js.Tuple2[Double, Double]): ZoomBehavior[Datum] = js.native
   def scaleExtent(): js.Array[Double] = js.native
+  def scale(scale: Double): ZoomBehavior[Datum] = js.native
   def transform(selection: Selection[Datum], transform: Transform): Transform = js.native
+  def translate(translate: js.Tuple2[Double, Double]): ZoomBehavior[Datum] = js.native
   def translateBy(selection: Selection[Datum], x: Double, y: Double): Transform = js.native
   def scaleBy(selection: Selection[Datum], k: Double): Transform = js.native
   def scaleTo(selection: Selection[Datum], k: Double): Transform = js.native

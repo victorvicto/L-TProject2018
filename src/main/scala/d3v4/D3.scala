@@ -64,6 +64,9 @@ package object d3v4 {
   implicit def d3toD3Zoom(d3t: d3.type): d3zoom.type = d3zoom
   implicit def d3toD3Format(d3t: d3.type): d3format.type = d3format
   implicit def d3toD3Chord(d3t: d3.type): d3chord.type = d3chord
+  implicit def d3toD3Fetch(d3t: d3.type): d3fetch.type = d3fetch
+  //implicit def d3toD3Behavior(d3t: d3.type): d3behavior.type = d3behavior
+  //implicit def d3toD3Topojson(d3t: d3.type): d3topojson.type = d3topojson
 
   implicit class SelectionExtensions[Datum](val s: Selection[Datum]) extends AnyVal {
     def nodeAs[T <: dom.EventTarget] = s.node().asInstanceOf[T]
@@ -139,4 +142,7 @@ package object d3v4 {
 
   @inline implicit def fromFunction2To3[Datum, M](value: (Datum, Int) => M): js.Function3[Datum, Int, js.UndefOr[Int], M] =
     (d: Datum, i: Int, x: js.UndefOr[Int]) => value.apply(d, i)
+
+  @inline implicit def fromFunctionToFunction0(value: () => Unit): js.Function0[Unit] =
+    () => value()
 }
